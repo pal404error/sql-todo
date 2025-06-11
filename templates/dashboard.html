@@ -1,0 +1,80 @@
+<!-- dashboard.html -->
+
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container">
+  <h4 class="white-text">Welcome, {{ username }}!</h4>
+
+  <!-- Add Task Form -->
+  <div class="card grey darken-4">
+    <div class="card-content white-text">
+      <span class="card-title">Add Task</span>
+      <form method="POST" action="/add">
+        <div class="input-field">
+          <input id="title" name="title" type="text" required>
+          <label for="title">Task Title</label>
+        </div>
+
+        <div class="input-field">
+          <textarea id="description" name="description" class="materialize-textarea"></textarea>
+          <label for="description">Task Description</label>
+        </div>
+
+        <div class="input-field">
+          <input id="due_date" name="due_date" type="date">
+          <label for="due_date">Due Date</label>
+        </div>
+
+        <div class="input-field">
+          <select name="priority">
+            <option value="Low" selected>Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+          </select>
+          <label>Priority</label>
+        </div>
+
+        <button class="btn waves-effect waves-light blue" type="submit">Add Task</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Tasks List -->
+  <ul class="collection with-header z-depth-3">
+    <li class="collection-header grey darken-3 white-text"><h5>All Tasks</h5></li>
+    {% for task in tasks %}
+      <li class="collection-item grey darken-4 white-text">
+        <span class="{% if task.status == 'done' %}green-text text-accent-2{% endif %}">
+          <strong>{{ task.title }}</strong> - {{ task.status.upper() }}
+        </span>
+        <br>
+        <small>{{ task.description }}</small>
+        <br>
+        <small>Due: {{ task.due_date }}</small>
+        <div class="right">
+          {% if task.status != 'done' %}
+            <a href="/complete/{{ task.id }}" class="btn-small green">✔</a>
+          {% endif %}
+          <a href="/delete/{{ task.id }}" class="btn-small red">🗑</a>
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+
+  <a href="/logout" class="btn grey lighten-1 black-text">Logout</a>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const selects = document.querySelectorAll('select');
+    M.FormSelect.init(selects);
+
+    const textarea = document.querySelector('textarea');
+    if (textarea) {
+      M.textareaAutoResize(textarea);
+    }
+  });
+</script>
+
+{% endblock %}

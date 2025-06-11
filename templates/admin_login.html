@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Admin Login{% endblock %}
+{% block content %}
+<nav>
+  <div class="nav-wrapper container">
+    <span class="brand-logo">Admin Login</span>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="card-panel">
+    <h5 class="white-text">Administrator Login</h5>
+    <form method="POST" action="/admin">
+      <div class="input-field">
+        <input id="username" name="username" required>
+        <label for="username">Username</label>
+      </div>
+
+      <div class="input-field">
+        <input id="password" type="password" name="password" required>
+        <label for="password">Password</label>
+      </div>
+
+      <button class="btn waves-effect">Login</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
